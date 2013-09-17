@@ -46,7 +46,7 @@
 -(IBAction) getBalance
 {
     float balance = [dwollaAPI getBalance];
-    NSLog(@"%@", balance);
+    NSLog(@"%0.2f", balance);
 }
 
 -(IBAction)getContacts
@@ -58,15 +58,19 @@
 -(IBAction)getFundingSources
 {
     NSArray* sources = [dwollaAPI getFundingSources];
-    DwollaFundingSource* person = [sources objectAtIndex:0];
-    NSLog(@"%@", [person description]);
+    if(sources.count > 0) {
+        DwollaFundingSource* person = [sources objectAtIndex:0];
+        NSLog(@"%@", [person name]);
+    }
 }
 
 -(IBAction)getFirstSource
 {
     NSArray* sources = [dwollaAPI getFundingSources];
-    DwollaFundingSource* source = [sources objectAtIndex:0];
-    NSLog(@"%@", [source description]);
+    if(sources.count > 0) {
+        DwollaFundingSource* source = [sources objectAtIndex:0];
+        NSLog(@"%@", [source name]);
+    }
 }
 
 -(IBAction)logout
@@ -77,16 +81,20 @@
 -(IBAction)getTransactions
 {
     NSArray *transactions = [dwollaAPI getTransactionsSince:@"04-08-12" withType:@"" withLimit:@"10" withSkip:@"0"];
-    DwollaTransaction* transaction = [transactions objectAtIndex:0];
-    NSLog(@"%@", [transaction description]);
+    if(transactions.count > 0) {
+        DwollaTransaction* transaction = [transactions objectAtIndex:0];
+        NSLog(@"%@", [transaction description]);
+    }
 }
 
 -(IBAction)getTransaction;
 {
     NSArray *transactions = [dwollaAPI getTransactionsSince:@"04-08-12" withType:@"" withLimit:@"10" withSkip:@"0"];
-    DwollaTransaction* transaction = [transactions objectAtIndex:0];
-    DwollaTransaction* trans = [dwollaAPI getTransaction:transaction.transactionID];
-    NSLog(@"%@", [trans description]);
+    if(transactions.count > 0) {
+        DwollaTransaction* transaction = [transactions objectAtIndex:0];
+        DwollaTransaction* trans = [dwollaAPI getTransaction:transaction.transactionID];
+        NSLog(@"%@", [trans description]);
+    }
 }
 
 -(IBAction)getTransactionStats
@@ -98,15 +106,17 @@
 -(IBAction)getAccountInfo
 {
     DwollaUser* user = [dwollaAPI getAccountInfo];
-    NSLog(@"%@", [user description]);
+    NSLog(@"%@", [user name]);
 }
 
 -(IBAction)getBasicInfo
 {
     NSArray *transactions = [dwollaAPI getTransactionsSince:@"04-08-12" withType:@"" withLimit:@"10" withSkip:@"0"];
-    DwollaTransaction* transaction = [transactions objectAtIndex:0];
-    DwollaUser* user = [dwollaAPI getBasicInfoWithAccountID:transaction.destinationID];
-    NSLog(@"%@", [user description]);
+    if(transactions.count > 0) {
+        DwollaTransaction* transaction = [transactions objectAtIndex:0];
+        DwollaUser* user = [dwollaAPI getBasicInfoWithAccountID:transaction.destinationID];
+        NSLog(@"%@", [user description]);
+    }
 }
 
 -(IBAction)sendMoney
