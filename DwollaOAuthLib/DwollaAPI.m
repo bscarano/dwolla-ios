@@ -87,7 +87,7 @@ static DwollaAPI* sharedInstance;
 {
     NSString* token = [self.oAuthTokenRepository getAccessToken];
     
-    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@?oauth_token=%@", REQUEST_URL, token];
+    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@?oauth_token=%@", REQUEST_URL, [self.httpRequestHelper encodeString:token]];
     
     //Checking Parameters
     [self isParameterNullOrEmpty: pin andThrowErrorWithName: PIN_ERROR_NAME];
@@ -184,7 +184,7 @@ static DwollaAPI* sharedInstance;
     
     NSString* token = [self.oAuthTokenRepository getAccessToken];
     
-    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@?oauth_token=%@", FUNDING_SOURCES_URL, token];
+    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@?oauth_token=%@", FUNDING_SOURCES_URL, [self.httpRequestHelper encodeString:token]];
     
     NSDictionary* dictionary = [self.httpRequestRepository getRequest:url];
 
@@ -206,7 +206,7 @@ static DwollaAPI* sharedInstance;
     
     [self isParameterNullOrEmpty: sourceID andThrowErrorWithName: SOURCE_ID_ERROR_NAME];
       
-    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@/%@?oauth_token=%@", FUNDING_SOURCES_URL, [self.httpRequestHelper encodeString:sourceID], token];
+    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@/%@?oauth_token=%@", FUNDING_SOURCES_URL, [self.httpRequestHelper encodeString:sourceID], [self.httpRequestHelper encodeString:token]];
     
     NSDictionary* dictionary = [self.httpRequestRepository getRequest:url];
     
@@ -270,7 +270,7 @@ static DwollaAPI* sharedInstance;
 {
     NSString* token = [self.oAuthTokenRepository getAccessToken];
     
-    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@/%@?oauth_token=%@", TRANSACTIONS_URL, transactionID, token];
+    NSString* url = [DWOLLA_API_BASEURL stringByAppendingFormat:@"%@/%@?oauth_token=%@", TRANSACTIONS_URL, transactionID, [self.httpRequestHelper encodeString:token]];
     
     NSDictionary* dictionary = [self.httpRequestRepository getRequest:url];
 

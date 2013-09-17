@@ -34,6 +34,9 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        oAuthTokenRepository = [[OAuthTokenRepository alloc] init];
+        httpRequestHelper = [[HttpRequestHelper alloc] init];
+
         key = [self.httpRequestHelper encodeString:_key];
         secret = [self.httpRequestHelper encodeString:_secret];
         [[NSUserDefaults standardUserDefaults] setObject:key forKey:@"key"];
@@ -136,9 +139,6 @@
     NSDictionary *dictionary = [parser objectWithString:dataString];
     
     NSString* token =[dictionary objectForKey:@"access_token"];
-    
-    token = [self.httpRequestHelper encodeString:token];
-    
     [oAuthTokenRepository setAccessToken:token];
     
     [receiver successfulLogin];
